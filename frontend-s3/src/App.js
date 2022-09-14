@@ -6,15 +6,27 @@ import {Routes, Route, useNavigate, Navigate, BrowserRouter} from 'react-router-
 import Profile from './Profile';
 import Navbar from './Navbar';
 import Video from './Video';
+import LoginPage from './LoginPage';
+import HomePage from './HomePage';
+
 function App() {
   const { user, isAuthenticated, isLoading } = useAuth0();
+  var homepage;
+  if(!isLoading){
+    if(isAuthenticated){
+      homepage = <HomePage />
+    } 
+    else{
+      homepage = <LoginPage />
+    }
+  }
+
 
   return (
     
     <BrowserRouter>
-    <Navbar />
     <Routes>
-        <Route path='/' element={<LoginButton />} />
+        <Route path='/' element={homepage} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/video' element={<Video />} />
     </Routes>
