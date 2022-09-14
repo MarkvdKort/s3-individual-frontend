@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "./assets/patbev.png"
 import LoginButton from "./LoginButton";
+import "./Styles/LoginPage.css"
 const LoginPage = () => {
     return ( 
 
@@ -13,8 +14,6 @@ const LoginPage = () => {
             You aren't logged in yet<br />
             <LoginButton />
             </div>
-            
-
           </div>
 
 
