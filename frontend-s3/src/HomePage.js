@@ -15,7 +15,7 @@ const HomePage = () => {
     })
   }
     return ( 
-
+          <div>
           <div className="LoginPage">
             <Navbar />
             <div className="Logo">
@@ -24,29 +24,10 @@ const HomePage = () => {
             <br />
             <div className="Text">
             You are logged in<br />
-            
-            {/* <button onClick={() => fetch('https://localhost:7081/api/User', {
-              
-  method: 'POST',
-  body: JSON.stringify(
-    {
-      
-      fullName: (user.name),
-      authID : (user.sub)
-    }
-  ),
-  headers: {
-    'content-type': 'application/json',    
-    
-  },
-}
-
-).then(() => {console.log('Request is handled')})} >make Request</button> */}
-
             <LogoutButton />
             </div>            
           </div>
-
+          </div>
 
      );
 }
