@@ -9,17 +9,7 @@ const Video = () => {
   
     const {user} = useAuth0();
     const [userid, setuserid] = useState();
-    const [List, setlist] = useState();
-    const   AddToCurrentlyWatching = () => {
-        // const {user} = useAuth0();
-        // const [userid, setuserid] = useState();
-        // Axios.get('https://localhost:7081/authid/' + user.sub).then((response) => {setuserid(response.data)});
-        // Axios.post('https://localhost:7081/api/CurrentlyWatching', {
-        //     "userID": (userid),
-        //     "videoID": 1
-        //   }.then(console.log("Video has been added to currently watching table")))
-        
-    }
+    const [List, setlist] = useState(null);
     useEffect(() => {
       Axios.get('https://localhost:7081/api/Video').then(response => {setlist(response.data)})
     }, []
@@ -33,17 +23,8 @@ const Video = () => {
         console.error(Error);
       }
     }
-    async function GetVideos(){
-      try{
-        const result = await Axios.get('https://localhost:7081/api/Video');
-        setlist(result.data);
-        console.log(result.data)
-      }
-      catch(Error){
-        console.error(Error);
-      }
-    }
     GetUserID();
+
     function AddCurrentlyWatching() {
       Axios.get('https://localhost:7081/api/CurrentlyWatching/' + userid + ' 1').then((response) => {
         if(response.data === "")
@@ -69,44 +50,44 @@ const Video = () => {
       })
 
     }
-    function ShowList(){
-      
-      Axios.get('https://localhost:7081/api/Video').then((response) => setlist(response.data))
-      return(List?.map((item) => (<h1>{item.description}</h1>)
 
-      ))
-    }
-    // console.log(List)
     return(
       
       <div>
-          {() => {
-            console.log(List);
-          }}
         <Navbar />
+        {List && List.map(function(item, i){
+          
+          return <img height="170px" width="170px" src={item.thumbnail}></img>
+        })}
+        { List &&
+            <video 
+            style={{alignItems: "Center"}}
+            muted
+            height="600px" 
+            width="600px" 
+            controls disablePictureInPicture 
+            controlsList="nodownload" 
+            id="video" 
+            preload="auto"
+            poster={List[0].thumbnail}
+            src={List[0].paths}
+            type="video/mp4"
+            onEnded={() => {
+              AddToViewHistory();
+            }} 
+            onPlaying={() => { 
+              AddCurrentlyWatching();   
+              //  GetVideos();      
+              
+              }}
+              
+              >
+                {/* <source src={List[0].paths} type="video/mp4"></source>   */}
+                Video is not supported
+              </video> 
+        }
 
-        <video 
-        style={{alignItems: "Center"}}
-        height="600px" 
-        width="600px" 
-        controls disablePictureInPicture 
-        controlsList="nodownload" 
-        id="video" 
-        preload="auto"
-        poster={logo}
-        onEnded={() => {
-          AddToViewHistory();
-        }} 
-        onPlaying={() => { 
-          AddCurrentlyWatching();   
-           GetVideos();      
           
-          }}
-          
-          >
-            { List &&  <source src={List.paths} type="video/mp4"></source>  } 
-            Video is not supported
-          </video> 
           <button onClick={() => console.log(List)}>click</button>
       </div>
     )
