@@ -31,7 +31,7 @@ function App() {
     <Routes>
         <Route path='/' element={homepage} />
         <Route path='/profile' element={<Profile />} />
-        <Route path='/video' element={<Video />} />
+        <Route path='/video:id' element={<Video />} />
     </Routes>
     </BrowserRouter>
  );
