@@ -1,13 +1,12 @@
 import React from "react";
 import logo from "./assets/patbev.png"
 import LoginButton from "./LoginButton";
-import "./Styles/LoginPage.css"
 const LoginPage = () => {
     return ( 
 
-          <div className="LoginPage">
+          <div className="bg-black">
             <div className="Logo">
-                <img style={{height: "400px", width: "400px"}} src={logo} />
+                <img className="h-[400px] w-[400px]" src={logo} />
             </div>
             <br />
             <div className="Text">

@@ -41,8 +41,8 @@ const HomePage = () => {
   }, [userid]);
 
   return (
-    <div>
-      <div className="LoginPage">
+    <div className="bg-black m-0 p-0 h-screen w-screen">
+      <div>
         <Navbar />
         <div className="Text">
           {Videos &&
@@ -58,7 +58,7 @@ const HomePage = () => {
               );
             })}
           <br />
-          My List
+          <div className="text-red-500">My List</div>
           <br />
           {Mylist &&
             Mylist.map(function (item, i) {
@@ -73,7 +73,7 @@ const HomePage = () => {
               );
             })}
           <br />
-          Liked Videos
+          <div className="text-red-500">Liked Videos</div>
           <br />
           {LikedVideos &&
             LikedVideos.map(function (item, i) {
