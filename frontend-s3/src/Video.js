@@ -15,23 +15,35 @@ const Video = () => {
     Axios.get("https://localhost:7081/api/Video/" + id).then((response) => {
       setVideo(response.data);
     });
-    Axios.get(
-      "https://localhost:7081/authid/" + user.sub
-    ).then((response) => {
-      setuserid(response.data)
+    Axios.get("https://localhost:7081/authid/" + user.sub).then((response) => {
+      setuserid(response.data);
     });
   }, [id, user.sub]);
+
   useEffect(() => {
-    Axios.get("https://localhost:7081/api/MyList/" + userid + " " + id)
-    .then((response) => {
-      if(response.data !== ""){
-        setListButton(<button onClick={() => RemoveFromMyList()}>Remove from my list</button>)
+    Axios.get("https://localhost:7081/api/MyList/" + userid + " " + id).then(
+      (response) => {
+        if (response.data !== "") {
+          setListButton(
+            <button
+              onClick={() => RemoveFromMyList()}
+            >
+              Remove from my list
+            </button>
+          );
+        } else {
+          setListButton(
+            <button
+              onClick={() => AddToMyList()}
+            >
+              Add to my list
+            </button>
+          );
+        }
       }
-      else{
-        setListButton(<button onClick={() => AddToMyList()}>Add to my list</button>)
-      }
-    })
-  },[userid])
+    );
+  }, [userid]);
+
   function AddCurrentlyWatching() {
     Axios.get(
       "https://localhost:7081/api/CurrentlyWatching/" + userid + " " + id
@@ -62,6 +74,7 @@ const Video = () => {
       }
     });
   }
+
   function AddToMyList() {
     axios
       .get("https://localhost:7081/api/MyList/" + userid + " " + id)
@@ -72,9 +85,17 @@ const Video = () => {
             userID: userid,
             videoID: id,
           });
+          setListButton(
+            <button
+              onClick={() => RemoveFromMyList()}
+            >
+              Remove from my list
+            </button>
+          );
         }
       });
   }
+
   function RemoveFromMyList() {
     axios
       .get("https://localhost:7081/api/MyList/" + userid + " " + id)
@@ -84,9 +105,17 @@ const Video = () => {
           Axios.delete(
             "https://localhost:7081/api/MyList/" + userid + " " + id
           );
+          setListButton(
+            <button
+              onClick={() => AddToMyList()}
+            >
+              Add to my list
+            </button>
+          );
         }
       });
   }
+
   return (
     <div>
       <Navbar />

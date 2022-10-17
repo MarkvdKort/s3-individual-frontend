@@ -9,6 +9,11 @@ module.exports = {
       maxWidth: {
         '170': '170px',
       },
+      colors: {
+        b:{
+          "100": "#333333",
+        }
+      }
     },
   },
   plugins: [],

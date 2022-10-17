@@ -50,7 +50,7 @@ const HomePage = () => {
               return (
                 <Link to={"./Video" + item.id}>
                   <img
-                    className="h-170 max-w-170 inline-block"
+                    className="h-170 max-w-170 inline-block px-2.5"
                     src={item.thumbnail}
                     onClick={() => console.log(user.sub)}
                   ></img>
