@@ -10,7 +10,7 @@ const HomePage = () => {
   const [userid, setuserid] = useState();
   const [Videos, setVideos] = useState(null);
   const [Mylist, setMylist] = useState(null);
-  const[LikedVideos, setLikedVideos] = useState(null);
+  const [LikedVideos, setLikedVideos] = useState(null);
   useEffect(() => {
     Axios.get("https://localhost:7081/api/Video").then((response) => {
       setVideos(response.data);
@@ -25,20 +25,20 @@ const HomePage = () => {
       });
     }
   }, []);
-
-  {
-    userid &&
+  useEffect(() => {
+    if (userid != null && userid != undefined) {
       Axios.get("https://localhost:7081/Video/MyList/" + userid).then(
         (response) => {
           setMylist(response.data);
         }
       );
-      userid &&
       Axios.get("https://localhost:7081/Video/Liked/" + userid).then(
         (response) => {
           setLikedVideos(response.data);
-        });
-  }
+        }
+      );
+    }
+  }, [userid]);
 
   return (
     <div>
@@ -50,9 +50,9 @@ const HomePage = () => {
               return (
                 <Link to={"./Video" + item.id}>
                   <img
-                    className="h-[170px] max-w-[170px] inline-block"
+                    className="h-170 max-w-170 inline-block"
                     src={item.thumbnail}
-                    onClick={() => console.log(item.id)}
+                    onClick={() => console.log(user.sub)}
                   ></img>
                 </Link>
               );
@@ -65,14 +65,14 @@ const HomePage = () => {
               return (
                 <Link to={"./Video" + item.id}>
                   <img
-                    className="h-[170px] max-w-[170px] inline-block"
+                    className="h-170 max-w-170 inline-block"
                     src={item.thumbnail}
                     onClick={() => console.log(item.id)}
                   ></img>
                 </Link>
               );
-            })}            
-                      <br />
+            })}
+          <br />
           Liked Videos
           <br />
           {LikedVideos &&
@@ -80,13 +80,13 @@ const HomePage = () => {
               return (
                 <Link to={"./Video" + item.id}>
                   <img
-                    className="h-[170px] max-w-[170px] inline-block"
+                    className="h-170 max-w-170 inline-block"
                     src={item.thumbnail}
                     onClick={() => console.log(item.id)}
                   ></img>
                 </Link>
               );
-            })}   
+            })}
         </div>
       </div>
     </div>
