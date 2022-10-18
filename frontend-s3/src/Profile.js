@@ -11,11 +11,11 @@ const Profile = () => {
 
   return (
     isAuthenticated && (
-      <div>
+      <div className="bg-black m-0 p-0 h-screen w-screen">
         <Navbar />
         <img src={user.picture} alt={user.name} />
-        <h2>{user.name}</h2>
-        <p>{user.sub}</p>
+        <h2 className="text-white">{user.name}</h2>
+        <p className="text-white">{user.sub}</p>
         <LogoutButton />
       </div>
     )

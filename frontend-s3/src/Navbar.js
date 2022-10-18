@@ -3,12 +3,12 @@ import LogoutButton from "./LogoutButton";
 const Navbar = () => {
   return (
     <nav className="overflow-hidden	bg-b-100">
-      <Link to="/" className="text-white text-xl px-1.5 py-1.5 text-center	">
+      <Link to="/" className="text-white text-xl px-1.5 py-1.5 text-center">
         HomePage
       </Link>
       <Link
         to="/profile"
-        className="text-white text-xl px-1.5 py-1.5 text-center	"
+        className="text-white text-xl px-1.5 py-1.5 text-center"
       >
         Profile
       </Link>

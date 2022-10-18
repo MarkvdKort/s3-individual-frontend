@@ -11,6 +11,7 @@ const Video = () => {
   const [Video, setVideo] = useState(null);
   const { id } = useParams();
   const [ListButton, setListButton] = useState(null);
+  const [LikeButton, setLikeButton] = useState(null);
   useEffect(() => {
     Axios.get("https://localhost:7081/api/Video/" + id).then((response) => {
       setVideo(response.data);
@@ -43,6 +44,17 @@ const Video = () => {
       }
     );
   }, [userid]);
+
+  useEffect(() => {
+    Axios.get("https://localhost:7081/api/Like/" + userid + " " + id).then((response) => {
+      if(response.data !== ""){
+        setLikeButton(<button onClick={() => RemoveLikedVideo()}>Remove like</button>);
+        console.log(response);
+      }else{
+        setLikeButton(<button onClick={() => LikeVideo()}>Like</button>)
+      }
+    })
+  }, [userid])
 
   function AddCurrentlyWatching() {
     Axios.get(
@@ -115,14 +127,45 @@ const Video = () => {
         }
       });
   }
-
+  function RemoveLikedVideo(){
+    axios.get("https://localhost:7081/api/Like/" + userid + " " + id).then(
+      (response) => {
+        if (response.data !== "") {
+          Axios.delete(
+            "https://localhost:7081/api/Like/" + userid + " " + id
+          );
+          setLikeButton(<button onClick={() => LikeVideo()}>Like</button>)
+        }
+      }
+    )
+  }
+  function LikeVideo(){
+    axios
+      .get("https://localhost:7081/api/Like/" + userid + " " + id)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data === "") {
+          Axios.post("https://localhost:7081/api/Like/", {
+            userid: userid,
+            videoid: id
+          });
+          setLikeButton(
+            <button
+              onClick={() => RemoveLikedVideo()}
+            >
+              Remove from Likes
+            </button>
+          );
+        }
+      });
+  }
   return (
     <div>
       <Navbar />
       {Video && (
         <video
           muted
-          className="items-center h-[400] w-[600px]"
+          className="items-center w-600"
           controls
           disablePictureInPicture
           controlsList="nodownload"
@@ -142,6 +185,7 @@ const Video = () => {
         </video>
       )}
       {ListButton}
+      {LikeButton}
     </div>
   );
 };
