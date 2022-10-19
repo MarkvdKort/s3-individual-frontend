@@ -14,6 +14,8 @@ import Navbar from "./Navbar";
 import Video from "./Video";
 import LoginPage from "./LoginPage";
 import HomePage from "./HomePage";
+import Example from "./VideoPreview";
+import VideoPreview from "./VideoPreview";
 
 function App() {
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -32,6 +34,7 @@ function App() {
         <Route path="/" element={homepage} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/video:id" element={<Video />} />
+        <Route path="/preview" element={<VideoPreview />} />
       </Routes>
     </BrowserRouter>
   );

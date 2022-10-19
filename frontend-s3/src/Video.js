@@ -159,9 +159,11 @@ const Video = () => {
         }
       });
   }
+  var vid = document.getElementById("video");
   return (
     <div>
       <Navbar />
+      
       {Video && (
         <video
           muted
@@ -172,13 +174,13 @@ const Video = () => {
           id="video"
           preload="auto"
           poster={Video.thumbnail}
-          src={Video.paths}
+          src={Video.paths + "#t=13.822835"}
           type="video/mp4"
           onEnded={() => {
             AddToViewHistory();
           }}
           onPlaying={() => {
-            AddCurrentlyWatching();
+           AddCurrentlyWatching();
           }}
         >
           Video is not supported
