@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import * as Videos from "./assets/index";
 import Navbar from "./Navbar";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
@@ -167,7 +166,7 @@ const Video = () => {
       {Video && (
         <video
           muted
-          className="items-center w-600"
+          className="items-center w-[500px] h-[375px]"
           controls
           disablePictureInPicture
           controlsList="nodownload"

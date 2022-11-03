@@ -48,7 +48,7 @@ const HomePage = () => {
           {Videos &&
             Videos.map(function (item, i) {
               return (
-                <Link to={"./Video" + item.id}>
+                <Link to={"./preview" + item.id}>
                   <img
                     className="h-170 max-w-170 inline-block px-2.5"
                     src={item.thumbnail}
@@ -63,7 +63,7 @@ const HomePage = () => {
           {Mylist &&
             Mylist.map(function (item, i) {
               return (
-                <Link to={"./Video" + item.id}>
+                <Link to={"./preview" + item.id}>
                   <img
                     className="h-170 max-w-170 inline-block"
                     src={item.thumbnail}
@@ -78,7 +78,7 @@ const HomePage = () => {
           {LikedVideos &&
             LikedVideos.map(function (item, i) {
               return (
-                <Link to={"./Video" + item.id}>
+                <Link to={"./preview" + item.id}>
                   <img
                     className="h-170 max-w-170 inline-block"
                     src={item.thumbnail}
