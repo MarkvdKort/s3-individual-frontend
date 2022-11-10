@@ -12,6 +12,12 @@ const Navbar = () => {
       >
         Profile
       </Link>
+      <Link
+        to="/chat"
+        className="text-white text-xl px-1.5 py-1.5 text-center"
+      >
+        Chat
+      </Link>
       <div className="text-red-500 float-right text-xl">
         <LogoutButton />
       </div>
