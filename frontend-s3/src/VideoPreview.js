@@ -40,7 +40,7 @@ export default function VideoPreview() {
         }
       }
     );
-  }, [userid]);
+  }, [userid, Video]);
 
   useEffect(() => {
     Axios.get("https://localhost:7081/api/Like/" + userid + " " + id).then(
@@ -55,7 +55,7 @@ export default function VideoPreview() {
         }
       }
     );
-  }, [userid]);
+  }, [userid, Video]);
   useEffect(() => {
     Axios.get(
       "https://localhost:7081/api/CurrentlyWatching/" + userid + " " + id
@@ -66,7 +66,7 @@ export default function VideoPreview() {
         setTimeStamp("0");
       }
     });
-  }, [userid]);
+  }, [userid, Video]);
   useEffect(() => {
     Video &&
     Axios.get(
@@ -399,6 +399,27 @@ export default function VideoPreview() {
                       </section>
                       {LikeButton}
                       {ListButton}
+                      <br /> <br /> Suggested Videos <br />
+                      {Suggestions &&
+                        Suggestions.map(function (item, i) {
+                          return (
+                            <Link to={"/preview" + item.id}>
+                              <img
+                                className="h-100 max-w-100 inline-block px-0.5"
+                                src={item.thumbnail}
+                                onClick={() =>
+                                  Axios.get(
+                                    "https://localhost:7081/api/Video/" +
+                                      item.id
+                                  ).then((response) => {
+                                    setVideo(response.data);
+                                  })
+                                }
+                              ></img>
+                            </Link>
+                          );
+                        })}
+
                     </div>
                   </div>
                 </div>

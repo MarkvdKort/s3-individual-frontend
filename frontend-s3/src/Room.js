@@ -15,7 +15,9 @@ function Room() {
     }
   return (
     <div>
-      <input type="text" onChange={(event) => {setuserid(event.target.value)}}></input>
+           Room:    <input type="text" onChange={(event) => {setRoom(event.target.value)}}></input><br />
+      Userid:  <input type="text" onChange={(event) => {setuserid(event.target.value)}}></input>
+
     <button onClick={joinRoom}>join room</button>
     <Chat socket={socket} room={room} username={userid} />
     </div>
