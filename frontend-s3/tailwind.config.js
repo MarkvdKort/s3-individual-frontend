@@ -10,10 +10,11 @@ module.exports = {
       }, 
       width: {
         "600": "600px",
-        '100': '100px'
+        '100': '100px',
       },
       maxWidth: {
         '170': '170px',
+        '100': '100px'
       },
       colors: {
         b:{
