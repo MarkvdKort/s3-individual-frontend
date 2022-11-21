@@ -3,17 +3,19 @@ import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
+import io from 'socket.io-client'
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import React, { useEffect } from "react";
-
+const socket = io.connect("http://localhost:3001");
 // function classNames(...classes) {
 //   return classes.filter(Boolean).join(" ");
 // }
 
 export default function VideoPreview() {
+  
   const [open, setOpen] = useState(true);
   // const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const { id } = useParams();
@@ -211,6 +213,38 @@ export default function VideoPreview() {
     });
   }, [user.sub]);
 
+  const SendVideo = async () => {
+    const joinRoom = (chat) => {
+      if(userid !== "" && chat !== ""){
+          socket.emit("join_room", chat);
+          console.log("Je bent de chat gejoint")
+      }
+  }
+  joinRoom(2);
+    const messageData = {
+      message: {
+        chatID: 2,
+        user: userid,
+        messageContent: `${Video.id}`,
+        type:"Video",
+        new: 0,
+        time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes(),
+    },
+    video: {
+        paths: Video.paths,
+        thumbnail: Video.thumbnail
+    }
+  }
+    Axios.post("https://localhost:7081/api/Message", {
+      userID: userid,
+      chatID: 2,
+      messageContent: `${Video.id}`,
+      type: "Video",
+      time: "nu",
+      new: 0
+    }).then((response) => console.log(response.data));
+    await socket.emit("send_message", messageData)
+  }
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -287,30 +321,6 @@ export default function VideoPreview() {
                           {Video && Video.player}
                         </p>
 
-                        {/* Reviews */}
-                        {/* <div className="mt-3">
-                          <h4 className="sr-only">Reviews</h4>
-                          <div className="flex items-center">
-                            <div className="flex items-center">
-                              {[0, 1, 2, 3, 4].map((rating) => (
-                                <StarIcon
-                                  key={rating}
-                                  className={classNames(
-                                    product.rating > rating
-                                      ? "text-gray-400"
-                                      : "text-gray-200",
-                                    "h-5 w-5 flex-shrink-0"
-                                  )}
-                                  aria-hidden="true"
-                                />
-                              ))}
-                            </div>
-                            <p className="sr-only">
-                              4 out of 5 stars
-                            </p>
-                          </div>
-                        </div> */}
-
                         <div className="mt-6">
                           <h4 className="sr-only">Description</h4>
 
@@ -326,76 +336,7 @@ export default function VideoPreview() {
                       >
                         <h3 id="options-heading" className="sr-only">
                           Product options
-                        </h3>
-
-                        <form>
-                          {/* Colors */}
-                          {/* <div>
-                            <h4 className="text-sm text-gray-600">Color</h4>
-
-                            <RadioGroup
-                              value={selectedColor}
-                              onChange={setSelectedColor}
-                              className="mt-2"
-                            >
-                              <RadioGroup.Label className="sr-only">
-                                {" "}
-                                Choose a color{" "}
-                              </RadioGroup.Label>
-                              <div className="flex items-center space-x-3">
-                                {product.colors.map((color) => (
-                                  <RadioGroup.Option
-                                    key={color.name}
-                                    value={color}
-                                    className={({ active, checked }) =>
-                                      classNames(
-                                        color.selectedColor,
-                                        active && checked
-                                          ? "ring ring-offset-1"
-                                          : "",
-                                        !active && checked ? "ring-2" : "",
-                                        "-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none"
-                                      )
-                                    }
-                                  >
-                                    <RadioGroup.Label
-                                      as="span"
-                                      className="sr-only"
-                                    >
-                                      {" "}
-                                      {color.name}{" "}
-                                    </RadioGroup.Label>
-                                    <span
-                                      aria-hidden="true"
-                                      className={classNames(
-                                        color.bgColor,
-                                        "h-8 w-8 border border-black border-opacity-10 rounded-full"
-                                      )}
-                                    />
-                                  </RadioGroup.Option>
-                                ))}
-                              </div>
-                            </RadioGroup>
-                          </div> */}
-
-                          {/* <div className="mt-6">
-                            <button
-                              type="submit"
-                              className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-                            >
-                              Add to bag
-                            </button>
-                          </div>
-
-                          <p className="absolute top-4 left-4 text-center sm:static sm:mt-6">
-                            <a
-                              
-                              className="font-medium text-indigo-600 hover:text-indigo-500"
-                            >
-                              View full details
-                            </a>
-                          </p> */}
-                        </form>
+                        </h3>                        
                       </section>
                       {LikeButton}
                       {ListButton}
@@ -419,7 +360,7 @@ export default function VideoPreview() {
                             </Link>
                           );
                         })}
-
+                        <Link to={"/SharePreview" + id}>Share video</Link>
                     </div>
                   </div>
                 </div>

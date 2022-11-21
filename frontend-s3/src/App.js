@@ -17,6 +17,7 @@ import HomePage from "./HomePage";
 import Example from "./VideoPreview";
 import VideoPreview from "./VideoPreview";
 import Room from "./Room";
+import SharePreview from "./SharePreview";
 
 function App() {
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -37,6 +38,7 @@ function App() {
         <Route path="/video:id" element={<Video />} />
         <Route path="/preview:id" element={<VideoPreview />} />
         <Route path="/chat" element={<Room />} />
+        <Route path="/SharePreview:video" element={<SharePreview />} />
       </Routes>
     </BrowserRouter>
   );

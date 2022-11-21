@@ -4,7 +4,7 @@ import LogoutButton from "./LogoutButton";
 const LoginButton = () => {
     const { loginWithRedirect, isAuthenticated } = useAuth0();
     return ( 
-
+        
           
     <button className="text-red-500" onClick={() => loginWithRedirect()}>
         Log In 
