@@ -72,7 +72,7 @@ function Chat({ socket, username, room }) {
             <ScrollToBottom>
               <div>
                 <div className=" h-auto p-2 flex ">
-                  <div className="h-auto w-auto min-h-[40px] min-w-[120px] bg-slate-900 rounded text-white flex items-center mr-[5px] ml-[5px] pr-[5px] pl-[5px] break-words">
+                  <div className="h-auto w-auto max-w-[50%] min-h-[40px] min-w-[120px] bg-slate-900 rounded text-white flex items-center mr-[5px] ml-[5px] pr-[5px] pl-[5px] break-words">
                     {message.message.messageContent}
                   </div>
                 </div>

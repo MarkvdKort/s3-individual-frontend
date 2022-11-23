@@ -51,13 +51,13 @@ function SharePreview() {
   }
     Axios.post("https://localhost:7081/api/Message", {
       userID: userid,
-      chatID: 2,
+      chatID: chat.id,
       messageContent: `${Video.id}`,
       type: "Video",
       time: "nu",
       new: 0
     }).then((response) => console.log(response.data));
-    await socket.volatile.emit("send_message", messageData)
+    await socket.emit("send_message", messageData)
   } 
     const ChatList =  chats.map((chat) => {
       return <Link to={"/preview" + Video.id} onClick={() => {
