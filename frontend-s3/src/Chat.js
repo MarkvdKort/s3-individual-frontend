@@ -113,13 +113,13 @@ function Chat({ socket, username, room }) {
   }, [messageList]);
 
   return (
-    <div>
-      <div>Chat</div>
+    <div >
+      {/* <div>Chat</div> */}
       <div>
         <div className="h-[600px] w-[820px]">
-          <div className="h-[45px] border-r-[6px] relative cursor-pointer">
+          {/* <div className="h-[45px] border-r-[6px] relative cursor-pointer">
             Chat header
-          </div>
+          </div> */}
 
           <div className="h-[450px] border bg-slate-500 overflow-y-auto">
             <ScrollToBottom className=" w-[100%] h-[100%] overflow-y-hidden overflow-x-hidden">

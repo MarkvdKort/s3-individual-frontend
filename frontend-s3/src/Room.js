@@ -61,10 +61,10 @@ function Room() {
 
   return (
     
-    <div>
+    <div >
       <Navbar />
       <div>
-      <input type="text" value={value} onChange={onChange} />
+      {/* <input type="text" value={value} onChange={onChange} />
       <button onClick={() => onSearch(value)}> Search </button>
 {NameList
         .filter((item) => {
@@ -85,7 +85,7 @@ function Room() {
           >
             {item}
           </div>
-        ))}
+        ))} */}
       </div>
       <div className='overflow-y-auto h-fill absolute left-0'>
     {ChatList}
