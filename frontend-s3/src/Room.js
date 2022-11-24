@@ -11,6 +11,9 @@ function Room() {
     const [userid, setuserid] = useState(null);
     const [room , setRoom] = useState("");
     const [chats, setChats] = useState([]);
+    const [userlist, setUserList] = useState([]);
+    const [chatAdded, setChatAdded] = useState(0);
+    const [chatExists, setChatExists] = useState(null);
     const joinRoom = (chat) => {
         if(userid !== "" && chat !== ""){
             socket.emit("join_room", chat);
@@ -22,12 +25,15 @@ function Room() {
       Axios.get("https://localhost:7081/authid/" + user.sub).then((response) => {
         setuserid(response.data);
       });
+      Axios.get("https://localhost:7081/api/User").then((response) => {
+        setUserList(response.data);
+      });
     }, [])
     useEffect(() => {
       Axios.get("https://localhost:7081/api/Chat/" + userid).then((response) => {
         setChats(response.data);
       });
-    }, [userid])
+    }, [userid, chatAdded])
     const ChatList = chats.map((chat) => {
       return <button onClick={() => {
         joinRoom(chat.id);
@@ -42,10 +48,31 @@ function Room() {
        
     })
       function CreateNewChat(otheruserid) {
-        Axios.post("https://localhost:7081/api/Chat", {
-          user1id: userid,
-          user2id: otheruserid
-        })
+        Axios.get("https://localhost:7081/api/Chat/"+ userid + otheruserid).then((response) => {
+            setChatExists(response.data)
+        });
+        if(chatExists !== null){
+          console.log("Chat does exist")
+        }else{
+          if(userid === otheruserid){
+            console.log("Chat does exist")
+          }else{
+            console.log("Chat doesn't exist");
+            setChatAdded(1);
+            console.log(chatAdded);
+            Axios.post("https://localhost:7081/api/Chat", {
+              user1id: userid,
+              user2id: otheruserid
+            }).then((response) => {
+              setChats((ChatList) => [...ChatList, response.data]);
+              joinRoom(response.data.id);
+            });
+            
+          }
+          
+        }
+
+        // setChatAdded(...chatAdded +1);
       }
       const [value, setValue] = useState("");
 
@@ -64,36 +91,33 @@ function Room() {
     <div >
       <Navbar />
       <div>
-      {/* <input type="text" value={value} onChange={onChange} />
-      <button onClick={() => onSearch(value)}> Search </button>
-{NameList
+      <input type="text" value={value} onChange={onChange} />
+      <button onClick={() => console.log(userlist)}> Search </button>
+{userlist && userlist
         .filter((item) => {
           const searchTerm = value.toLowerCase();
           const id = "mark"
           return (
             searchTerm &&
-            item.startsWith(searchTerm) &&
-            item !== searchTerm
+            item.fullName.startsWith(searchTerm) &&
+            item.fullName !== searchTerm
           );
         })
         .slice(0, 10)
         .map((item) => (
           <div
-            onClick={() => onSearch(item.id)}
+            onClick={() => CreateNewChat(item.id)}
             className="dropdown-row"
-            key={item}
+            key={item.fullName}
           >
-            {item}
+            {item.fullName}
           </div>
-        ))} */}
+        ))}
       </div>
       <div className='overflow-y-auto h-fill absolute left-0'>
     {ChatList}
 
     </div>
-      <button className='absolute bottom-0' onClick={() => CreateNewChat(1)}>
-        Create New Chat
-      </button>
            {/* Room:    <input type="text" onChange={(event) => {setRoom(event.target.value)}}></input><br />
       Userid:  <input type="text" onChange={(event) => {setuserid(event.target.value)}}></input> */}
   <div className='absolute left-[300px]'>
