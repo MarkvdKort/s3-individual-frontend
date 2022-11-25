@@ -120,7 +120,7 @@ function Chat({ socket, username, room }) {
           {/* <div className="h-[45px] border-r-[6px] relative cursor-pointer">
             Chat header
           </div> */}
-
+          {room}
           <div className="h-[450px] border bg-slate-500 overflow-y-auto">
             <ScrollToBottom className=" w-[100%] h-[100%] overflow-y-hidden overflow-x-hidden">
               {messages}
