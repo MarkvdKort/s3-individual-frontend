@@ -20,7 +20,6 @@ function Room() {
       setRoom(chat);
     }
   };
-  const NameList = ["mark", "mark1"];
   useEffect(() => {
     Axios.get("https://localhost:7081/authid/" + user.sub).then((response) => {
       setuserid(response.data);
@@ -86,12 +85,6 @@ function Room() {
     setValue(event.target.value);
   };
 
-  const onSearch = (searchTerm) => {
-    setValue(searchTerm);
-    // our api to fetch the search result
-    console.log("search ", searchTerm);
-  };
-
   return (
     <div>
       <Navbar />
@@ -102,7 +95,6 @@ function Room() {
           userlist
             .filter((item) => {
               const searchTerm = value.toLowerCase();
-              const id = "mark";
               return (
                 searchTerm &&
                 item.fullName.startsWith(searchTerm) &&
