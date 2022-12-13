@@ -56,7 +56,7 @@ function Chat({ socket, username, room }) {
   useEffect(() => {
     console.log(messageList);
     SetMessages(
-      messageList.map((message, index) => {
+      messageList.map((message) => {
         if (message.message.userid === username) {
           setFlex("flex justify-start");
         } else {

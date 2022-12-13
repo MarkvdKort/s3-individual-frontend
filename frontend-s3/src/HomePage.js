@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import LogoutButton from "./LogoutButton";
-import { useAuth0, User } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 
@@ -47,7 +46,7 @@ const HomePage = () => {
         <Navbar />
         <div className="Text">
           {Videos &&
-            Videos.map(function (item, i) {
+            Videos.map(function (item) {
               return (
                 <Link to={"./preview" + item.id}>
                   <img
@@ -62,7 +61,7 @@ const HomePage = () => {
           <div className="text-red-500">My List</div>
           <br />
           {Mylist &&
-            Mylist.map(function (item, i) {
+            Mylist.map(function (item) {
               return (
                 <Link to={"./preview" + item.id}>
                   <img
@@ -77,7 +76,7 @@ const HomePage = () => {
           <div className="text-red-500">Liked Videos</div>
           <br />
           {LikedVideos &&
-            LikedVideos.map(function (item, i) {
+            LikedVideos.map(function (item) {
               return (
                 <Link to={"./preview" + item.id}>
                   <img
