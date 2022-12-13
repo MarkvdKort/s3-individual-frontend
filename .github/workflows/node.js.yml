@@ -17,9 +17,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: markvdkort/eslint-action@1.0.2
-      with:
-          files: src/
+    - name: Run ESLint
+      run: eslint . --ext .js,.jsx,.ts,.tsx
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
