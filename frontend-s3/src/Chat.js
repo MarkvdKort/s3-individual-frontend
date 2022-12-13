@@ -1,14 +1,10 @@
-import { data } from "autoprefixer";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
 function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
-  const [Video, setVideo] = useState(null);
-  const [chatVideo, setChatVideo] = useState(null);
   const [messages, SetMessages] = useState();
-  const [flex, setFlex] = useState();
   useEffect(() => {
     Axios.get("https://localhost:7081/api/Message/" + room).then((response) => {
       setMessageList(response.data);
@@ -113,7 +109,7 @@ function Chat({ socket, username, room }) {
   }, [messageList]);
 
   return (
-    <div >
+    <div>
       {/* <div>Chat</div> */}
       <div>
         <div className="h-[600px] w-[820px]">
