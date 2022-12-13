@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import React, { useEffect } from "react";
-const socket = io.connect("http://localhost:3001");
 // function classNames(...classes) {
 //   return classes.filter(Boolean).join(" ");
 // }
