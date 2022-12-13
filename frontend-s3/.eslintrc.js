@@ -10,5 +10,9 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["react"],
-  rules: { "react/prop-types": "off" },
+  rules: {
+    "react/prop-types": "off",
+    "react/jsx-key": "off",
+    "no-undef": "off",
+  },
 };
