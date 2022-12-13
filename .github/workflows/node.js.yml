@@ -17,6 +17,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Install ESLint
+      run: npm install eslint-plugin-react@latest --save-dev
     - name: Run ESLint
       run: npx eslint . --ext .js,.jsx,.ts,.tsx
     - name: Use Node.js ${{ matrix.node-version }}
