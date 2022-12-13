@@ -5,7 +5,7 @@ const LoginPage = () => {
     <div className="bg-black m-0 p-0 h-screen w-screen">
       <br />
       <div className="text-white">
-        You aren't logged in yet
+        You are not logged in yet
         <br />
         <LoginButton />
       </div>

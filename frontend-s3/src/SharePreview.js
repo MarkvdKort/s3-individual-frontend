@@ -1,38 +1,38 @@
 import { Fragment, useState } from "react";
-import { Dialog, RadioGroup, Transition } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, useParams } from "react-router-dom";
 import Axios from "axios";
-import io from 'socket.io-client'
+import io from "socket.io-client";
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect } from "react";
 const socket = io.connect("http://localhost:3001");
 function SharePreview() {
-    const [open, setOpen] = useState(true);
-    const { video } = useParams();
-    const { user } = useAuth0();
-    const [Video, setVideo] = useState(null);
-    const [userid, setuserid] = useState();
-    const [chats, setChats] = useState([]);
-    useEffect(() => {
-      Axios.get("https://localhost:7081/api/Video/" + video).then((response) => {
-        setVideo(response.data);
-      });
-      Axios.get("https://localhost:7081/authid/" + user.sub).then((response) => {
-        setuserid(response.data);
-      });
-    }, [user.sub]);
-    const joinRoom = (chat) => {
-      if(userid !== "" && chat !== ""){
-          socket.emit("join_room", chat);
-          console.log("Je bent de chat gejoint")
-      }
-  }
+  const [open, setOpen] = useState(true);
+  const { video } = useParams();
+  const { user } = useAuth0();
+  const [Video, setVideo] = useState(null);
+  const [userid, setuserid] = useState();
+  const [chats, setChats] = useState([]);
+  useEffect(() => {
+    Axios.get("https://localhost:7081/api/Video/" + video).then((response) => {
+      setVideo(response.data);
+    });
+    Axios.get("https://localhost:7081/authid/" + user.sub).then((response) => {
+      setuserid(response.data);
+    });
+  }, [user.sub]);
+  const joinRoom = (chat) => {
+    if (userid !== "" && chat !== "") {
+      socket.emit("join_room", chat);
+      console.log("Je bent de chat gejoint");
+    }
+  };
   useEffect(() => {
     Axios.get("https://localhost:7081/api/Chat/" + userid).then((response) => {
       setChats(response.data);
     });
-  }, [userid])
+  }, [userid]);
   const SendVideo = async (chat) => {
     joinRoom(chat.id);
     const messageData = {
@@ -40,39 +40,47 @@ function SharePreview() {
         chatID: chat.id,
         user: userid,
         messageContent: `${Video.id}`,
-        type:"Video",
+        type: "Video",
         new: 0,
-        time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes(),
-    },
-    video: {
+        time:
+          new Date(Date.now()).getHours() +
+          ":" +
+          new Date(Date.now()).getMinutes(),
+      },
+      video: {
         paths: Video.paths,
-        thumbnail: Video.thumbnail
-    }
-  }
+        thumbnail: Video.thumbnail,
+      },
+    };
     Axios.post("https://localhost:7081/api/Message", {
       userID: userid,
       chatID: chat.id,
       messageContent: `${Video.id}`,
       type: "Video",
       time: "nu",
-      new: 0
+      new: 0,
     }).then((response) => console.log(response.data));
-    await socket.emit("send_message", messageData)
-  } 
-    const ChatList =  chats.map((chat) => {
-      return <Link to={"/preview" + Video.id} onClick={() => {
-        SendVideo(chat);
-      }} className="p-6 h-50 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
-      {/* <div className="shrink-0">
+    await socket.emit("send_message", messageData);
+  };
+  const ChatList = chats.map((chat) => {
+    return (
+      <Link
+        to={"/preview" + Video.id}
+        onClick={() => {
+          SendVideo(chat);
+        }}
+        className="p-6 h-50 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4"
+      >
+        {/* <div className="shrink-0">
         <img className="h-12 w-12" src="/img/logo.svg" alt="Logo" />
       </div> */}
-      <div>
-        <div className="text-xl font-medium text-black">Chat: {chat.id}</div>
+        <div>
+          <div className="text-xl font-medium text-black">Chat: {chat.id}</div>
           <p className="text-slate-500">{chat.user1id}</p>
         </div>
-      </Link>   
-       
-    })
+      </Link>
+    );
+  });
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -112,7 +120,7 @@ function SharePreview() {
                   <div className="grid w-full grid-cols-1 items-start gap-y-8 gap-x-6 sm:grid-cols-12 lg:gap-x-8">
                     <div className="sm:col-span-4 lg:col-span-5">
                       <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100">
-                         {Video && (
+                        {Video && (
                           <video
                             muted
                             className="object-cover object-center"
@@ -132,10 +140,13 @@ function SharePreview() {
                     </div>
                     <div className="sm:col-span-8 lg:col-span-7">
                       <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
-                        <button onClick={( ) => {console.log(video)}}>
-                        SHARE VIDEO
+                        <button
+                          onClick={() => {
+                            console.log(video);
+                          }}
+                        >
+                          SHARE VIDEO
                         </button>
-                        
                       </h2>
 
                       <section
@@ -146,15 +157,13 @@ function SharePreview() {
                           Product information
                         </h3>
 
-                        <p className="text-2xl text-gray-900">
-                          send to:
-                        </p>
+                        <p className="text-2xl text-gray-900">send to:</p>
 
                         <div className="mt-6">
                           <h4 className="sr-only">Description</h4>
 
                           {/* <p className="text-sm text-gray-700"> */}
-                            {ChatList}
+                          {ChatList}
                           {/* </p> */}
                         </div>
                       </section>
@@ -167,7 +176,7 @@ function SharePreview() {
         </div>
       </Dialog>
     </Transition.Root>
-  )
+  );
 }
 
-export default SharePreview
+export default SharePreview;

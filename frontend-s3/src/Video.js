@@ -25,19 +25,13 @@ const Video = () => {
       (response) => {
         if (response.data !== "") {
           setListButton(
-            <button
-              onClick={() => RemoveFromMyList()}
-            >
+            <button onClick={() => RemoveFromMyList()}>
               Remove from my list
             </button>
           );
         } else {
           setListButton(
-            <button
-              onClick={() => AddToMyList()}
-            >
-              Add to my list
-            </button>
+            <button onClick={() => AddToMyList()}>Add to my list</button>
           );
         }
       }
@@ -45,15 +39,19 @@ const Video = () => {
   }, [userid]);
 
   useEffect(() => {
-    Axios.get("https://localhost:7081/api/Like/" + userid + " " + id).then((response) => {
-      if(response.data !== ""){
-        setLikeButton(<button onClick={() => RemoveLikedVideo()}>Remove like</button>);
-        console.log(response);
-      }else{
-        setLikeButton(<button onClick={() => LikeVideo()}>Like</button>)
+    Axios.get("https://localhost:7081/api/Like/" + userid + " " + id).then(
+      (response) => {
+        if (response.data !== "") {
+          setLikeButton(
+            <button onClick={() => RemoveLikedVideo()}>Remove like</button>
+          );
+          console.log(response);
+        } else {
+          setLikeButton(<button onClick={() => LikeVideo()}>Like</button>);
+        }
       }
-    })
-  }, [userid])
+    );
+  }, [userid]);
 
   function AddCurrentlyWatching() {
     Axios.get(
@@ -97,9 +95,7 @@ const Video = () => {
             videoID: id,
           });
           setListButton(
-            <button
-              onClick={() => RemoveFromMyList()}
-            >
+            <button onClick={() => RemoveFromMyList()}>
               Remove from my list
             </button>
           );
@@ -117,28 +113,22 @@ const Video = () => {
             "https://localhost:7081/api/MyList/" + userid + " " + id
           );
           setListButton(
-            <button
-              onClick={() => AddToMyList()}
-            >
-              Add to my list
-            </button>
+            <button onClick={() => AddToMyList()}>Add to my list</button>
           );
         }
       });
   }
-  function RemoveLikedVideo(){
-    axios.get("https://localhost:7081/api/Like/" + userid + " " + id).then(
-      (response) => {
+  function RemoveLikedVideo() {
+    axios
+      .get("https://localhost:7081/api/Like/" + userid + " " + id)
+      .then((response) => {
         if (response.data !== "") {
-          Axios.delete(
-            "https://localhost:7081/api/Like/" + userid + " " + id
-          );
-          setLikeButton(<button onClick={() => LikeVideo()}>Like</button>)
+          Axios.delete("https://localhost:7081/api/Like/" + userid + " " + id);
+          setLikeButton(<button onClick={() => LikeVideo()}>Like</button>);
         }
-      }
-    )
+      });
   }
-  function LikeVideo(){
+  function LikeVideo() {
     axios
       .get("https://localhost:7081/api/Like/" + userid + " " + id)
       .then((response) => {
@@ -146,23 +136,20 @@ const Video = () => {
         if (response.data === "") {
           Axios.post("https://localhost:7081/api/Like/", {
             userid: userid,
-            videoid: id
+            videoid: id,
           });
           setLikeButton(
-            <button
-              onClick={() => RemoveLikedVideo()}
-            >
+            <button onClick={() => RemoveLikedVideo()}>
               Remove from Likes
             </button>
           );
         }
       });
   }
-  var vid = document.getElementById("video");
   return (
     <div>
       <Navbar />
-      
+
       {Video && (
         <video
           muted
@@ -179,7 +166,7 @@ const Video = () => {
             AddToViewHistory();
           }}
           onPlaying={() => {
-           AddCurrentlyWatching();
+            AddCurrentlyWatching();
           }}
         >
           Video is not supported

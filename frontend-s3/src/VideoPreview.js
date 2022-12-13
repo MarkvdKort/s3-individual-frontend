@@ -1,9 +1,8 @@
 import { Fragment, useState } from "react";
-import { Dialog, RadioGroup, Transition } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { StarIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
-import io from 'socket.io-client'
+import io from "socket.io-client";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -15,7 +14,6 @@ const socket = io.connect("http://localhost:3001");
 // }
 
 export default function VideoPreview() {
-  
   const [open, setOpen] = useState(true);
   // const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const { id } = useParams();
@@ -71,13 +69,18 @@ export default function VideoPreview() {
   }, [userid, Video]);
   useEffect(() => {
     Video &&
-    Axios.get(
-      "https://localhost:7081/api/Video/Suggested/" + Video.player + "/" + Video.team + "/" + Video.id
-    ).then((response) => {
-      if (response.data != "") {
-        setSuggestions(response.data);
-      }
-    });
+      Axios.get(
+        "https://localhost:7081/api/Video/Suggested/" +
+          Video.player +
+          "/" +
+          Video.team +
+          "/" +
+          Video.id
+      ).then((response) => {
+        if (response.data != "") {
+          setSuggestions(response.data);
+        }
+      });
   }, [Video]);
   // useEffect(() => {
   //   Axios.get("https://localhost:7081/api/Video/Suggested/" + Video.player + "/" + Video.team + "/" + Video.id).then((response) => {
@@ -85,21 +88,6 @@ export default function VideoPreview() {
   //       console.log(response.data);
   //   });
   // }, [Video]);
-  function AddCurrentlyWatching() {
-    Axios.get(
-      "https://localhost:7081/api/CurrentlyWatching/" + userid + " " + id
-    ).then((response) => {
-      if (response.data === "") {
-        Axios.post("https://localhost:7081/api/CurrentlyWatching", {
-          userID: userid,
-          videoID: id,
-          timestamp: vid.currentTime,
-        });
-      } else {
-        console.log(userid);
-      }
-    });
-  }
 
   function AddToViewHistory() {
     Axios.delete(
@@ -213,38 +201,6 @@ export default function VideoPreview() {
     });
   }, [user.sub]);
 
-  const SendVideo = async () => {
-    const joinRoom = (chat) => {
-      if(userid !== "" && chat !== ""){
-          socket.emit("join_room", chat);
-          console.log("Je bent de chat gejoint")
-      }
-  }
-  joinRoom(2);
-    const messageData = {
-      message: {
-        chatID: 2,
-        user: userid,
-        messageContent: `${Video.id}`,
-        type:"Video",
-        new: 0,
-        time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes(),
-    },
-    video: {
-        paths: Video.paths,
-        thumbnail: Video.thumbnail
-    }
-  }
-    Axios.post("https://localhost:7081/api/Message", {
-      userID: userid,
-      chatID: 2,
-      messageContent: `${Video.id}`,
-      type: "Video",
-      time: "nu",
-      new: 0
-    }).then((response) => console.log(response.data));
-    await socket.emit("send_message", messageData)
-  }
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -308,7 +264,6 @@ export default function VideoPreview() {
                       <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">
                         {Video && Video.name}
                       </h2>
-
                       <section
                         aria-labelledby="information-heading"
                         className="mt-3"
@@ -329,20 +284,19 @@ export default function VideoPreview() {
                           </p>
                         </div>
                       </section>
-
                       <section
                         aria-labelledby="options-heading"
                         className="mt-6"
                       >
                         <h3 id="options-heading" className="sr-only">
                           Product options
-                        </h3>                        
+                        </h3>
                       </section>
                       {LikeButton}
                       {ListButton}
                       <br /> <br /> Suggested Videos <br />
                       {Suggestions &&
-                        Suggestions.map(function (item, i) {
+                        Suggestions.map(function (item) {
                           return (
                             <Link to={"/preview" + item.id}>
                               <img
@@ -360,7 +314,7 @@ export default function VideoPreview() {
                             </Link>
                           );
                         })}
-                        <Link to={"/SharePreview" + id}>Share video</Link>
+                      <Link to={"/SharePreview" + id}>Share video</Link>
                     </div>
                   </div>
                 </div>
